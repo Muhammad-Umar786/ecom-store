@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin – Manage Orders</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+  <style>
+    body { min-height: 100vh; }
+    .sidebar { width: 200px; }
+    .content { margin-left: 200px; padding: 2rem; }
+  </style>
+</head>
+<body class="d-flex">
+  <nav class="sidebar bg-light position-fixed h-100 p-3">
+    <h5>Admin Panel</h5>
+    <ul class="nav flex-column">
+      <li class="nav-item"><a href="admin-items.html" class="nav-link">Items</a></li>
+      <li class="nav-item"><a href="admin-users.html" class="nav-link">Users</a></li>
+      <li class="nav-item"><a href="admin-orders.html" class="nav-link active">Orders</a></li>
+      <li class="nav-item"><a href="admin-contacts.html" class="nav-link">Contacts</a></li>
+    </ul>
+  </nav>
+
+  <div class="content flex-fill">
+    <h2 class="mb-4">Manage Orders</h2>
+
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">Order #</th>
+          <th scope="col">User</th>
+          <th scope="col">Total</th>
+          <th scope="col">Status</th>
+          <th scope="col" style="width: 150px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1001</td>
+          <td>john@example.com</td>
+          <td>$59.98</td>
+          <td><span class="badge bg-warning text-dark">Pending</span></td>
+          <td>
+            <button class="btn btn-sm btn-outline-success">Mark Delivered</button>
+            <button class="btn btn-sm btn-outline-danger">Cancel</button>
+          </td>
+        </tr>
+        <!-- ... -->
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
