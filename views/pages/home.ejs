@@ -1,0 +1,53 @@
+
+<section class="main">
+  <div class="container py-5">
+    <div class="row py-5">
+      <div class="col-lg-7 pt-5 text-center">
+        <h1 class="pt-5">Nature Has Always Cared For Us!</h1>
+        <button class="btn1 mt-3">More Tips</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="new">
+  <div class="container py-5">
+    <div class="row pt-5 text-center">
+      <% ['banana.jpeg','grapes.jpg','tree.jpg'].forEach((img,i) => { %>
+        <div class="col-lg-4">
+          <img src="/images/<%= img %>" class="img-fluid" alt="" style="width:150px;height:200px;">
+          <h6><%= ['NATURAL','ORGANIC','HEALTH'][i] %></h6>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="product">
+  <div class="container py-5">
+    <div class="row py-5 text-center">
+      <div class="col-lg-5 m-auto">
+        <h1>What's Trending</h1>
+        <h6 style="color:red;">Be Healthy Organic Food</h6>
+      </div>
+    </div>
+    <div class="row">
+      <% featured.forEach(item => { %>
+        <div class="col-lg-3 text-center">
+          <div class="card border-0 bg-light mb-2">
+            <div class="card-body">
+              <img src="<%= item.image %>" class="img-fluid" style="width:200px;height:250px;">
+            </div>
+          </div>
+          <h6><%= item.name %></h6>
+          <p>$<%= item.price.toFixed(2) %></p>
+        </div>
+      <% }) %>
+    </div>
+    <div class="row">
+      <div class="col-log-6 text-center m-auto">
+        <a href="/views/menu" class="btn1">Click For More</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="/views/">DealBaaz</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarScroll"
+      aria-controls="navbarScroll"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav m-auto my-2 my-lg-0">
+        <li class="nav-item"><a class="nav-link" href="/views/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/views/menu">Menu</a></li>
+        <li class="nav-item"><a class="nav-link" href="/views/about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="/views/signUp">Sign Up</a></li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <form class="d-flex me-3" action="/views/search" method="GET">
+          <input
+            class="search form-control"
+            type="search"
+            name="q"
+            placeholder="Search"
+            aria-label="Search"
+          >
+          <button class="btn0" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav d-flex flex-row align-items-center">
+          <li class="nav-item me-3">
+            <a class="nav-link" href="/views/cart">
+              <i class="bi bi-cart fs-4 text-dark"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/views/profile">
+              <i class="bi bi-person fs-4 text-dark"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
