@@ -1,30 +1,75 @@
-// middleware/auth.js
+// middlewares/auth.js
+
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
-// Verifies JWT/session and attaches req.user
-exports.authenticate = (req, res, next) => {
-  let token = req.session?.token
-            || (req.headers.authorization?.startsWith('Bearer ')
-                && req.headers.authorization.split(' ')[1])
-            || req.body.token;
+const SECRET = process.env.JWT_SECRET || 'your_jwt_secret_here';
 
-  if (!token) return res.status(401).json({ error: 'Not authenticated' });
+/**
+ * After login/signup, sign & store token in session
+ */
+function createSessionToken(req, user) {
+  const payload = { id: user._id, role: user.role };
+  const token = jwt.sign(payload, SECRET, { expiresIn: '2h' });
+  req.session.token = token;
+}
+
+/**
+ * Decode token and, if valid, load user into req.user
+ */
+async function attachUser(req, res, next) {
+  const token = req.session.token;
+  if (!token) return next();
 
   try {
-    req.user = jwt.verify(token, process.env.JWT_SECRET);
-    next();
+    const { id } = jwt.verify(token, SECRET);
+    req.user = await User.findById(id).select('-password');
   } catch (err) {
-    res.status(401).json({ error: 'Invalid token' });
+    // invalid or expired token: just ignore
   }
-};
 
-// Checks that req.user.role === 'admin'
-exports.requireAdmin = (req, res, next) => {
+  next();
+}
+
+/**
+ * Require login—if no req.user, redirect to /login
+ */
+function reqAuth(req, res, next) {
   if (!req.user) {
-    return res.status(401).json({ error: 'Not authenticated' });
-  }
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({ error: 'Admin privilege required' });
+    return res.redirect('/login');
   }
   next();
+}
+
+/**
+ * Optional auth: load req.user if token present, but always allow through
+ */
+async function optAuth(req, res, next) {
+  // reuse attachUser logic
+  const token = req.session.token;
+  if (token) {
+    try {
+      const { id } = jwt.verify(token, SECRET);
+      req.user = await User.findById(id).select('-password');
+    } catch (err) { /* ignore */ }
+  }
+  next();
+}
+
+/**
+ * Require admin role—redirect to home if not admin
+ */
+function isAdmin(req, res, next) {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.redirect('/');
+  }
+  next();
+}
+
+module.exports = {
+  createSessionToken,
+  attachUser,
+  optAuth,
+  reqAuth,
+  isAdmin,
 };

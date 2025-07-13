@@ -1,48 +1,98 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-  <div class="container">
-    <a class="navbar-brand" href="/views/">DealBaaz</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarScroll"
-      aria-controls="navbarScroll"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav m-auto my-2 my-lg-0">
-        <li class="nav-item"><a class="nav-link" href="/views/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/views/menu">Menu</a></li>
-        <li class="nav-item"><a class="nav-link" href="/views/about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="/views/signUp">Sign Up</a></li>
+    <div class="container">
+        <a class="navbar-brand" href="/">DealBaaz</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+            aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <!-- Center nav links -->
+            <ul class="navbar-nav m-auto my-2 my-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link <%= active==='home'? 'active' : '' %>" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <%= active==='menu'? 'active' : '' %>" href="/menu">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <%= active==='about'? 'active' : '' %>" href="/about">About</a>
+                </li>
+                <% if (!user) { %>
+                    <li class="nav-item">
+                        <a class="nav-link <%= active==='signup'? 'active' : '' %>" href="/signup">Sign Up</a>
+                    </li>
+                    <% } %>
+            </ul>
+
+            <!-- Right: search + icons / auth links -->
+            <div class="d-flex align-items-center">
+                <form action="/menu" method="GET" class="d-flex me-3">
+                    <input name="q" class="form-control px-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-secondary ms-1" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+                <ul class="navbar-nav d-flex flex-row align-items-center">
+                    <li class="nav-item me-3">
+                        <a class="nav-link position-relative" href="/cart">
+                            <i class="bi bi-cart fs-4 text-dark"></i>
+                            <% if (user && user.cartCount> 0) { %>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    <%= user.cartCount %>
+                                </span>
+                                <% } %>
+                        </a>
+                    </li>
+
+
+
+
+
+
+                            <% if (user) { %>
+    <li class="nav-item dropdown">
+      <a
+        class="nav-link dropdown-toggle"
+        href="#"
+        id="userMenu"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="bi bi-person fs-4 text-dark"></i>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+
+        <% if (user.role==='admin') { %>
+          <li><hr class="dropdown-divider"></li>
+          <li class="dropdown-header">Admin</li>
+          <li><a class="dropdown-item" href="/admin/users">Manage Users</a></li>
+          <li><a class="dropdown-item" href="/admin/orders">Manage Orders</a></li>
+          <li><a class="dropdown-item" href="/admin/items">Manage Items</a></li>
+          <li><a class="dropdown-item" href="/admin/contacts">Manage Contact</a></li>
+        <% } %>
+
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <form action="/logout" method="POST" class="m-0">
+            <button type="submit" class="dropdown-item">Logout</button>
+          </form>
+        </li>
       </ul>
-      <div class="d-flex align-items-center">
-        <form class="d-flex me-3" action="/views/search" method="GET">
-          <input
-            class="search form-control"
-            type="search"
-            name="q"
-            placeholder="Search"
-            aria-label="Search"
-          >
-          <button class="btn0" type="submit">Search</button>
-        </form>
-        <ul class="navbar-nav d-flex flex-row align-items-center">
-          <li class="nav-item me-3">
-            <a class="nav-link" href="/views/cart">
-              <i class="bi bi-cart fs-4 text-dark"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/views/profile">
-              <i class="bi bi-person fs-4 text-dark"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
+    </li>
+  <% } else { %>
+    <li class="nav-item">
+      <a class="nav-link" href="/login">
+        <i class="bi bi-box-arrow-in-right fs-4 text-dark"></i>
+      </a>
+    </li>
+  <% } %>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
 </nav>

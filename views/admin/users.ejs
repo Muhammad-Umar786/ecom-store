@@ -1,0 +1,80 @@
+
+    <style>
+        .admin-table img {
+            height: 50px;
+            object-fit: cover;
+        }
+    </style>
+
+    <div class="container py-5">
+        <h1 class="mb-4">Manage Users</h1>
+        <table class="table table-striped admin-table">
+            <thead>
+                <tr>
+                    <th>Avatar</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                    <th>Addresses</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(u=> { %>
+                    <tr>
+                        <td>
+                            <!-- if you store avatars, else leave blank -->
+                            <i class="bi bi-person-circle fs-2"></i>
+                        </td>
+                        <td>
+                            <%= u.fullName %>
+                        </td>
+                        <td>
+                            <%= u.email %>
+                        </td>
+                        <td>
+                            <%= u.phoneNumber %>
+                        </td>
+                        <td>
+                            <%= u.role %>
+                        </td>
+                        <td>
+                            <% if (u.addresses.length) { %>
+                                <ul class="list-unstyled mb-0">
+                                    <% u.addresses.forEach(a=> { %>
+                                        <li><strong>
+                                                <%= a.title %>:
+                                            </strong>
+                                            <%= a.address %>
+                                        </li>
+                                        <% }) %>
+                                </ul>
+                                <% } else { %>
+                                    <span class="text-muted">—</span>
+                                    <% } %>
+                        </td>
+                        <td>
+                            <!-- Change Role -->
+                            <form action="/admin/users/<%= u._id %>/role?_method=PUT" method="POST" class="d-inline">
+                                <button class="btn btn-sm <%= u.role==='admin'?'btn-warning':'btn-success' %>"
+                                    <%=u._id.toString()===currentAdminId?'disabled':'' %>
+                                    >
+                                    <%= u.role==='admin' ? 'Demote' : 'Promote' %>
+                                </button>
+                            </form>
+
+                            <!-- Delete -->
+                            <form action="/admin/users/<%= u._id %>?_method=DELETE" method="POST" class="d-inline">
+                                <button class="btn btn-sm btn-danger" <%=u._id.toString()===currentAdminId?'disabled':''
+                                    %>
+                                    >
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>

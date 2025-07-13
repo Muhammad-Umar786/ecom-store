@@ -1,0 +1,130 @@
+
+
+<style>
+  .order-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+  }
+  .order-header {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .order-body {
+    padding: 1rem;
+  }
+  .order-body table {
+    width: 100%;
+  }
+  .order-body th, .order-body td {
+    padding: 0.5rem;
+    text-align: left;
+  }
+</style>
+
+<div class="container py-5">
+  <h2 class="mb-4">Hello, <%= user.fullName %>!</h2>
+
+  
+    <!-- Addresses Section -->
+    <div class="mb-5">
+        <h4>Your Addresses</h4>
+        <% if (!user.addresses.length) { %>
+            <p class="text-muted">No addresses added yet.</p>
+            <% } else { %>
+                <ul class="list-group mb-3">
+                    <% user.addresses.forEach((addr, i)=> { %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>
+                                    <%= addr.title %>
+                                </strong><br>
+                                <%= addr.address %>
+                            </div>
+                            <form action="/profile/address/delete/<%= i %>" method="POST">
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } %>
+                    <form action="/profile/address" method="POST" class="row g-2">
+                        <div class="col-md-4">
+                            <input name="title" class="form-control" placeholder="Label (e.g., Home)" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input name="address" class="form-control" placeholder="Address details" required>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary w-100">Add</button>
+                        </div>
+                    </form>
+    </div>
+
+
+
+  <h3>Your Orders</h3>
+  <% if (!orders.length) { %>
+    <p class="text-muted">You have no orders yet.</p>
+  <% } else { %>
+    <% orders.forEach(o => { %>
+      <div class="order-card">
+        <div class="order-header">
+          <div>
+            <strong>Order placed:</strong>
+            <%= new Date(o.createdAt).toLocaleString() %>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="
+              badge
+              <%= o.status === 'pending' ? 'bg-warning text-dark' :
+                  o.status === 'delivered' ? 'bg-success' : 'bg-danger' %>
+            ">
+              <%= o.status.charAt(0).toUpperCase() + o.status.slice(1) %>
+            </span>
+            <% if (o.status === 'pending') { %>
+              <form
+                action="/profile/cancel/<%= o._id %>?_method=PUT"
+                method="POST"
+                class="ms-3 m-0"
+              >
+                <button class="btn btn-sm btn-outline-danger">Cancel</button>
+              </form>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="order-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th style="width: 80px;">Qty</th>
+                <th style="width: 120px;">Unit Price</th>
+                <th style="width: 120px;">Line Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% o.items.forEach(item => { %>
+                <tr>
+                  <td><%= item.name %></td>
+                  <td><%= item.quantity %></td>
+                  <td>$<%= item.price.toFixed(2) %></td>
+                  <td>$<%= (item.quantity * item.price).toFixed(2) %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+
+          <div class="text-end">
+            <strong>Order Total: $<%= o.totalPrice.toFixed(2) %></strong>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+</div>

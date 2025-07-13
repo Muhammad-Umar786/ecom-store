@@ -1,0 +1,62 @@
+<style>
+    /* Page‑specific styles */
+    .search-bar {
+        max-width: 500px;
+        margin: 2rem auto;
+    }
+
+    .marr{
+        margin-top: 4rem;
+    }
+
+    .card-grid {
+        gap: 1.5rem;
+    }
+
+    .card-grid .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .no-results {
+        text-align: center;
+        color: #777;
+        margin-top: 3rem;
+    }
+</style>
+
+<div class="container marr">
+    <!-- <form action="/menu" method="GET" class="search-bar">
+        <div class="input-group">
+            <input name="q" type="text" class="form-control" placeholder="Search our items..." value="<%= q %>"
+                aria-label="Search items">
+            <button class="btn btn-outline-secondary" type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form> -->
+
+    <% if (!items.length) { %>
+        <p class="no-results">No items found<% if (q) { %> for “<%= q %>”<% } %>.</p>
+        <% } else { %>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 card-grid">
+                <% items.forEach(item=> { %>
+                    <div class="col mb-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <img src="<%= item.image %>" class="card-img-top" alt="<%= item.name %>">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">
+                                    <%= item.name %>
+                                </h5>
+                                <p class="card-text">$<%= item.price.toFixed(2) %>
+                                </p>
+                                <a href="/cart/add/<%= item._id %>" class="btn btn-sm btn-primary">
+                                    Add to Cart
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+            <% } %>
+</div>

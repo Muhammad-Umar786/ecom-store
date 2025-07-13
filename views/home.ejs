@@ -1,0 +1,207 @@
+<% if (sent) { %>
+    <div class="container">
+        <div class="alert alert-success text-center">
+            Your message has been sent. Thank you!
+        </div>
+    </div>
+    <% } %>
+
+        <section class="main">
+            <div class="container py-5">
+                <div class="row py-5">
+                    <div class="col-lg-7 pt-5 text-center">
+                        <h1 class="pt-5">Nature Has Always Cared For Us!</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="news">
+            <div class="container py-5">
+                <div class="row pt-5">
+                    <div class="col-lg-7 m-auto">
+                        <div class="row text-center">
+                            <div class="col-lg-4">
+                                <img src="banana.jpeg" class="img-fluid" alt="" style="width:150px; height:200px;">
+                                <h6>NATURAL</h6>
+                            </div>
+                            <div class="col-lg-4">
+                                <img src="grapes.jpg" class="img-fluid" alt="" style="width:150px; height:200px;">
+                                <h6>ORGANIC</h6>
+                            </div>
+                            <div class="col-lg-4">
+                                <img src="tree.jpg" class="img-fluid" alt="" style="width:150px; height:200px;">
+                                <h6>HEALTH</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product">
+            <div class="container py-5">
+                <div class="row py-5">
+                    <div class="col-lg-5 m-auto text-center">
+                        <h1>What's Trending</h1>
+                        <h6 style="color: red;">Be Healthy Organic Food</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <% if (trending && trending.length) { %>
+                        <% trending.forEach(item=> { %>
+                            <div class="col-lg-3 text-center">
+                                <div class="card border-0 bg-light mb-2">
+                                    <div class="card-body">
+                                        <img src="<%= item.image %>" class="img-fluid" alt=""
+                                            style="width:200px; height:250px;">
+                                    </div>
+                                </div>
+                                <h6>
+                                    <%= item.name %>
+                                </h6>
+                                <p>$<%= item.price.toFixed(2) %>
+                                </p>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <p class="text-center text-muted">No trending products at the moment.</p>
+                                    <% } %>
+                </div>
+                <div class="row">
+                    <div class="col-log-6 text-center m-auto">
+
+                        <button class="btn1" onclick="window.location.href='/menu'">Click For More
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about">
+            <div class="container py-5">
+                <div class="row py-5">
+                    <div class="col-lg-8 m-auto text-center">
+                        <h1>Welcome to our Organic Food Society</h1>
+                        <h6 style="color: red;">Be Healthy Organic Food</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img src="Men_hold_fruit.jpg" class="img-fluid mb-3" alt="">
+                        <h5>Best Quality Product</h5>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime nesciunt architecto veniam
+                            modi, laborum exercitationem.</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <img src="gf1.jpg" class="img-fluid mb-3" alt="">
+                        <h5>Best Quality Product</h5>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime nesciunt architecto veniam
+                            modi, laborum exercitationem.</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <img src="Men_hold_fruit.jpg" class="img-fluid mb-3" alt="">
+                        <h5>Best Quality Product</h5>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime nesciunt architecto veniam
+                            modi, laborum exercitationem.</p>
+                    </div>
+                </div>
+                <div class="row pt-3">
+                    <div class="col-log-6 text-center m-auto">
+
+                        <button class="btn1" onclick="window.location.href='/menu'">Shop More
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="shop">
+            <div class="container">
+                <div class="row py-5">
+                    <div class="col-lg-8 m-auto text-center">
+                        <h1>Explore Our Store</h1>
+                        <h6 style="color: red;">Pick your Product From Our Store</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <% if (explore && explore.length) { %>
+                        <% explore.forEach(item=> { %>
+                            <div class="col-lg-3 text-center">
+                                <div class="card border-0 bg-light mb-2">
+                                    <div class="card-body">
+                                        <img src="<%= item.image %>" class="img-fluid" alt=""
+                                            style="width:200px; height:250px;">
+                                    </div>
+                                </div>
+                                <h6>
+                                    <%= item.name %>
+                                </h6>
+                                <p>$<%= item.price.toFixed(2) %>
+                                </p>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <p class="text-center text-muted">Our store is currently empty.</p>
+                                    <% } %>
+                </div>
+            </div>
+        </section>
+
+        <section class="apple py-5">
+            <div class="container text-white py-5">
+                <div class="row py-5">
+                    <div class="col-lg-6 text-left">
+                        <h1 class="font-weight-bold py-2 px-2">Unlock Your Potential with Good Nutrition</h1>
+                        <h6>Be Healthy Organic Food</h6>
+                        <button class="btn1 mt-3">More From Us</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact py-5">
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-lg-5 m-auto text-center">
+                        <h1>Contact Us</h1>
+                        <h6 style="color: red;">Always Be In Touch With Us</h6>
+                    </div>
+                </div>
+                <div class="row py-5">
+                    <div class="col-lg-9 m-auto">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <h6>LOCATION</h6>
+                                <p>F-10 Markaz Islamabad, Islamabad Capital Territory</p>
+                                <h6>PHONE</h6>
+                                <p>0344-2435557</p>
+                                <h6>EMAIL</h6>
+                                <p>baazdeal@gmail.com</p>
+                            </div>
+                            <div class="col-lg-7">
+                                <form action="/contact" method="POST">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <input type="text" name="firstName" class="form-control bg-light"
+                                                placeholder="First Name" required>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="lastName" class="form-control bg-light"
+                                                placeholder="Last Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 py-3">
+                                            <textarea name="message" class="form-control bg-light"
+                                                placeholder="Your message" rows="5" required></textarea>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn0">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>

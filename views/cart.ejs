@@ -1,0 +1,128 @@
+<script>
+    // If there are addresses, wire hidden field
+    const sel = document.querySelector('select[name="selectedAddress"]');
+    if (sel) {
+        const hidden = document.querySelector('input[name="selectedAddress"][type="hidden"]');
+        hidden.value = sel.value;
+        sel.addEventListener('change', () => hidden.value = sel.value);
+    }
+</script>
+
+
+<style>
+    .cart-table img {
+        height: 80px;
+        object-fit: cover;
+    }
+
+    .checkout-section {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 8px;
+    }
+</style>
+
+<div class="container py-5">
+    <h1 class="mb-4 text-center">Your Cart</h1>
+
+    <% if (!cart.length) { %>
+        <p class="text-center text-muted">Your cart is empty. <a href="/menu">Shop now</a>.</p>
+        <% } else { %>
+            <div class="row">
+                <div class="col-lg-8">
+                    <table class="table cart-table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-end">Price</th>
+                                <th class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% cart.forEach(i=> { %>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="/uploads/<%= i.image %>" alt="" class="me-3">
+                                            <span>
+                                                <%= i.name %>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <%= i.quantity %>
+                                    </td>
+                                    <td class="text-end">$<%= i.price.toFixed(2) %>
+                                    </td>
+                                    <td class="text-end">$<%= i.lineTotal.toFixed(2) %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3" class="text-end">Grand Total:</th>
+                                <th class="text-end">$<%= totalPrice.toFixed(2) %>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="checkout-section">
+                        <h4 class="mb-3">Payment & Shipping</h4>
+
+                        <% if (cartError) { %>
+                            <div class="alert alert-danger">
+                                <%= cartError %>
+                            </div>
+                            <% } %>
+
+                                <form action="/cart/checkout" method="POST">
+                                    <!-- Address Selection -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Delivery Address</label>
+                                        <% if (user.addresses.length) { %>
+                                            <select name="selectedAddress" class="form-select" required>
+                                                <option value="">-- Choose address --</option>
+                                                <% user.addresses.forEach((addr,i)=> { %>
+                                                    <option value="<%= i %>">
+                                                        <strong>
+                                                            <%= addr.title %>
+                                                        </strong> – <%= addr.address %>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
+                                            <% } else { %>
+                                                <p class="text-muted">Add an address in your profile first.</p>
+                                                <% } %>
+                                    </div>
+
+                                    <!-- Payment Fields -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Card Number</label>
+                                        <input name="cardNumber" type="text" class="form-control"
+                                            placeholder="1234 5678 9012 3456" required>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <label class="form-label">Expiry (MM/YY)</label>
+                                            <input name="expiry" type="text" class="form-control" placeholder="MM/YY"
+                                                required>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label">CVV</label>
+                                            <input name="cvv" type="password" class="form-control" placeholder="123"
+                                                required>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100">Place Order</button>
+                                </form>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+</div>

@@ -1,0 +1,120 @@
+
+<style>
+  .accordion-button:not(.collapsed) {
+    color: #0d6efd;
+    background-color: #e7f1ff;
+  }
+  .order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .order-actions form {
+    display: inline-block;
+    margin-left: 0.5rem;
+  }
+</style>
+
+<div class="container py-5">
+  <h1 class="mb-4">Manage Orders</h1>
+
+  <% if (!orders.length) { %>
+    <p class="text-muted">No orders found.</p>
+  <% } else { %>
+    <div class="accordion" id="ordersAccordion">
+      <% orders.forEach((o, idx) => { %>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="orderHeading<%= idx %>">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#orderCollapse<%= idx %>"
+              aria-expanded="false"
+              aria-controls="orderCollapse<%= idx %>"
+            >
+              <div class="order-header">
+                <span>
+                  <strong>Order #<%= o._id %></strong>
+                  &mdash; <%= new Date(o.createdAt).toLocaleString() %>
+                </span>
+                <span>
+                  <%= o.user.fullName %> (<%= o.user.email %>)
+                </span>
+              </div>
+            </button>
+          </h2>
+          <div
+            id="orderCollapse<%= idx %>"
+            class="accordion-collapse collapse"
+            aria-labelledby="orderHeading<%= idx %>"
+            data-bs-parent="#ordersAccordion"
+          >
+            <div class="accordion-body">
+
+              <!-- Payment Info -->
+              <h5>Payment</h5>
+              <p>
+                Card: **** **** **** <%= o.paymentInfo.cardNumber.slice(-4) %><br>
+                Expiry: <%= o.paymentInfo.expiry %><br>
+                CVV: *** 
+              </p>
+
+              <!-- Items -->
+              <h5>Items</h5>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th style="width:80px;">Qty</th>
+                    <th style="width:120px;">Price</th>
+                    <th style="width:120px;">Line Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% o.items.forEach(item => { %>
+                    <tr>
+                      <td><%= item.name %></td>
+                      <td><%= item.quantity %></td>
+                      <td>$<%= item.price.toFixed(2) %></td>
+                      <td>$<%= (item.quantity*item.price).toFixed(2) %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+              <p class="text-end"><strong>Order Total: $<%= o.totalPrice.toFixed(2) %></strong></p>
+
+              <!-- Status & Actions -->
+              <div class="order-actions">
+                <form
+                  action="/admin/orders/<%= o._id %>/status?_method=PUT"
+                  method="POST"
+                  class="d-inline-block"
+                >
+                  <select name="status" class="form-select form-select-sm d-inline-block" style="width:auto">
+                    <% ['pending','on way','delivered','canceled'].forEach(st => { %>
+                      <option value="<%= st %>" <%= o.status===st?'selected':'' %>>
+                        <%= st.charAt(0).toUpperCase() + st.slice(1) %>
+                      </option>
+                    <% }) %>
+                  </select>
+                  <button type="submit" class="btn btn-sm btn-primary ms-1">Update</button>
+                </form>
+
+                <form
+                  action="/admin/orders/<%= o._id %>?_method=DELETE"
+                  method="POST"
+                  class="d-inline-block"
+                >
+                  <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
